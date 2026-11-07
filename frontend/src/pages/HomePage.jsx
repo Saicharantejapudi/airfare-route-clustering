@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useMode } from '../context/ModeContext';
 import { predictRouteCluster } from '../services/api';
+import { calculatePreciseFareVerdict } from '../utils/pricingEngine';
 
 const airlines = ['Vistara', 'Air_India', 'Indigo', 'SpiceJet', 'AirAsia', 'GO_FIRST'];
 const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Hyderabad', 'Chennai'];
@@ -68,8 +69,25 @@ const HomePage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await predictRouteCluster(flightData);
-      setResult(res);
+      // 1. Calculate precise route-calibrated price metrics
+      const precise = calculatePreciseFareVerdict(flightData);
+
+      // 2. Fetch ML cluster assignment from backend if available
+      let clusterData = {};
+      try {
+        clusterData = await predictRouteCluster(flightData);
+      } catch (apiErr) {
+        // Fallback gracefully to offline clustering heuristic if API is not running
+        clusterData = {
+          cluster_id: flightData.travel_class === 'Business' ? 2 : (flightData.duration >= 14 ? 1 : (flightData.days_left >= 30 ? 3 : 0)),
+          cluster_name: flightData.travel_class === 'Business' ? 'Cluster 2: Advance Business Class Corridor' : (flightData.duration >= 14 ? 'Cluster 1: Long-Haul Connecting Route' : (flightData.days_left >= 30 ? 'Cluster 3: Budget Leisure Route' : 'Cluster 0: Standard Planned Economy'))
+        };
+      }
+
+      setResult({
+        ...clusterData,
+        ...precise
+      });
     } catch (err) {
       console.error("Check failed:", err);
     } finally {
@@ -233,7 +251,7 @@ const HomePage = () => {
 
             {/* Verdict Output Card */}
             {result && (
-              <div className="p-6 rounded-2xl bg-slate-50 border-2 border-aviation-500 space-y-4 animate-fadeIn">
+              <div className="p-6 rounded-2xl bg-slate-50 border-2 border-aviation-500 space-y-5 animate-fadeIn">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-3">
                   <div>
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Instant AI Verdict</span>
@@ -243,6 +261,43 @@ const HomePage = () => {
                     Value Rating: {result.deal_score} / 10
                   </div>
                 </div>
+
+                {/* Precise Price Comparison Metric Cards */}
+                {result.expected_fair_price && (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="p-3.5 bg-white rounded-xl border border-slate-200 shadow-2xs">
+                      <div className="text-[11px] font-bold text-slate-500 uppercase">Your Quoted Fare</div>
+                      <div className="text-xl font-black text-slate-900 mt-0.5">
+                        ₹{result.user_price?.toLocaleString()}
+                      </div>
+                      <div className="text-[11px] text-slate-400 mt-0.5">Inputted price</div>
+                    </div>
+
+                    <div className="p-3.5 bg-white rounded-xl border border-slate-200 shadow-2xs">
+                      <div className="text-[11px] font-bold text-slate-500 uppercase">Route Fair Benchmark</div>
+                      <div className="text-xl font-black text-aviation-700 mt-0.5">
+                        ₹{result.expected_fair_price?.toLocaleString()}
+                      </div>
+                      <div className="text-[11px] text-slate-400 mt-0.5">Historical expected median</div>
+                    </div>
+
+                    <div className={`p-3.5 rounded-xl border shadow-2xs ${
+                      result.price_diff > 0 
+                        ? 'bg-rose-50/70 border-rose-200 text-rose-700' 
+                        : 'bg-emerald-50/70 border-emerald-200 text-emerald-700'
+                    }`}>
+                      <div className="text-[11px] font-bold uppercase">
+                        {result.price_diff > 0 ? 'Surge Premium' : 'Passenger Savings'}
+                      </div>
+                      <div className="text-xl font-black mt-0.5">
+                        {result.price_diff > 0 ? `+₹${Math.abs(result.price_diff).toLocaleString()}` : `-₹${Math.abs(result.price_diff).toLocaleString()}`}
+                      </div>
+                      <div className="text-[11px] font-semibold mt-0.5">
+                        {result.price_diff > 0 ? `+${result.percent_delta}% over benchmark` : `${Math.abs(result.percent_delta)}% below benchmark`}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="p-4 rounded-xl bg-white border border-slate-200 space-y-1">
                   <div className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
@@ -254,9 +309,23 @@ const HomePage = () => {
                   </p>
                 </div>
 
+                {/* Historical Price Spectrum */}
+                {result.route_median && (
+                  <div className="p-3.5 rounded-xl bg-aviation-50/60 border border-aviation-100 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
+                    <span className="font-semibold text-aviation-900">Historical Corridor Spectrum:</span>
+                    <div className="flex flex-wrap items-center gap-3 font-mono">
+                      <span>Low Deal: <b className="text-emerald-700">₹{result.route_p25?.toLocaleString()}</b></span>
+                      <span>•</span>
+                      <span>Normal Median: <b className="text-slate-800">₹{result.route_median?.toLocaleString()}</b></span>
+                      <span>•</span>
+                      <span>Surge Trigger: <b className="text-rose-700">₹{result.route_surge_threshold?.toLocaleString()}</b></span>
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 pt-1">
                   <div>
-                    <b>Route:</b> {flightData.source_city} ➔ {flightData.destination_city} ({flightData.airline})
+                    <b>Route:</b> {flightData.source_city} ➔ {flightData.destination_city} ({flightData.airline.replace('_', ' ')})
                   </div>
                   <div className="font-semibold text-aviation-700">
                     {result.savings_estimate}

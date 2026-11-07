@@ -1,0 +1,494 @@
+{
+  "routes": {
+    "Bangalore_Chennai_Business": {
+      "median": 49992,
+      "mean": 52436,
+      "p25": 44280,
+      "p75": 60396,
+      "min": 12136,
+      "max": 90720
+    },
+    "Bangalore_Chennai_Economy": {
+      "median": 6161,
+      "mean": 7105,
+      "p25": 4672,
+      "p75": 9241,
+      "min": 1603,
+      "max": 28174
+    },
+    "Bangalore_Delhi_Business": {
+      "median": 50361,
+      "mean": 48144,
+      "p25": 42521,
+      "p75": 54841,
+      "min": 32923,
+      "max": 111883
+    },
+    "Bangalore_Delhi_Economy": {
+      "median": 4500,
+      "mean": 6124,
+      "p25": 4028,
+      "p75": 7488,
+      "min": 2723,
+      "max": 34158
+    },
+    "Bangalore_Hyderabad_Business": {
+      "median": 56476,
+      "mean": 50395,
+      "p25": 37985,
+      "p75": 56588,
+      "min": 12000,
+      "max": 83239
+    },
+    "Bangalore_Hyderabad_Economy": {
+      "median": 5808,
+      "mean": 6360,
+      "p25": 4337,
+      "p75": 7813,
+      "min": 1694,
+      "max": 27610
+    },
+    "Bangalore_Kolkata_Business": {
+      "median": 60508,
+      "mean": 58854,
+      "p25": 51817,
+      "p75": 61404,
+      "min": 25000,
+      "max": 105168
+    },
+    "Bangalore_Kolkata_Economy": {
+      "median": 6271,
+      "mean": 7375,
+      "p25": 4538,
+      "p75": 8287,
+      "min": 3026,
+      "max": 29382
+    },
+    "Bangalore_Mumbai_Business": {
+      "median": 56058,
+      "mean": 58024,
+      "p25": 54684,
+      "p75": 69244,
+      "min": 20760,
+      "max": 103819
+    },
+    "Bangalore_Mumbai_Economy": {
+      "median": 6191,
+      "mean": 6381,
+      "p25": 4349,
+      "p75": 7212,
+      "min": 2150,
+      "max": 40354
+    },
+    "Chennai_Bangalore_Business": {
+      "median": 58970,
+      "mean": 53113,
+      "p25": 44144,
+      "p75": 60260,
+      "min": 12000,
+      "max": 107597
+    },
+    "Chennai_Bangalore_Economy": {
+      "median": 6161,
+      "mean": 7175,
+      "p25": 4656,
+      "p75": 9105,
+      "min": 1443,
+      "max": 36911
+    },
+    "Chennai_Delhi_Business": {
+      "median": 57920,
+      "mean": 52443,
+      "p25": 45185,
+      "p75": 60160,
+      "min": 27792,
+      "max": 103683
+    },
+    "Chennai_Delhi_Economy": {
+      "median": 5100,
+      "mean": 6075,
+      "p25": 3864,
+      "p75": 7375,
+      "min": 2051,
+      "max": 34968
+    },
+    "Chennai_Hyderabad_Business": {
+      "median": 51345,
+      "mean": 51559,
+      "p25": 41064,
+      "p75": 51457,
+      "min": 15000,
+      "max": 92752
+    },
+    "Chennai_Hyderabad_Economy": {
+      "median": 4714,
+      "mean": 5960,
+      "p25": 3810,
+      "p75": 6978,
+      "min": 1105,
+      "max": 26148
+    },
+    "Chennai_Kolkata_Business": {
+      "median": 55377,
+      "mean": 57078,
+      "p25": 54896,
+      "p75": 55377,
+      "min": 20000,
+      "max": 104624
+    },
+    "Chennai_Kolkata_Economy": {
+      "median": 5937,
+      "mean": 7547,
+      "p25": 4678,
+      "p75": 9026,
+      "min": 2359,
+      "max": 42349
+    },
+    "Chennai_Mumbai_Business": {
+      "median": 56273,
+      "mean": 56223,
+      "p25": 49553,
+      "p75": 64113,
+      "min": 23424,
+      "max": 114704
+    },
+    "Chennai_Mumbai_Economy": {
+      "median": 5037,
+      "mean": 6529,
+      "p25": 4048,
+      "p75": 8233,
+      "min": 1830,
+      "max": 37646
+    },
+    "Delhi_Bangalore_Business": {
+      "median": 49177,
+      "mean": 48576,
+      "p25": 42457,
+      "p75": 54889,
+      "min": 32859,
+      "max": 85353
+    },
+    "Delhi_Bangalore_Economy": {
+      "median": 4500,
+      "mean": 6175,
+      "p25": 4020,
+      "p75": 7424,
+      "min": 3090,
+      "max": 31917
+    },
+    "Delhi_Chennai_Business": {
+      "median": 52392,
+      "mean": 52031,
+      "p25": 45257,
+      "p75": 60232,
+      "min": 27864,
+      "max": 104466
+    },
+    "Delhi_Chennai_Economy": {
+      "median": 4979,
+      "mean": 6102,
+      "p25": 3988,
+      "p75": 7454,
+      "min": 1998,
+      "max": 35145
+    },
+    "Delhi_Hyderabad_Business": {
+      "median": 46097,
+      "mean": 44457,
+      "p25": 39321,
+      "p75": 51697,
+      "min": 23944,
+      "max": 114507
+    },
+    "Delhi_Hyderabad_Economy": {
+      "median": 5761,
+      "mean": 6031,
+      "p25": 4181,
+      "p75": 6172,
+      "min": 2022,
+      "max": 30760
+    },
+    "Delhi_Kolkata_Business": {
+      "median": 57405,
+      "mean": 56239,
+      "p25": 45032,
+      "p75": 67769,
+      "min": 27976,
+      "max": 117307
+    },
+    "Delhi_Kolkata_Economy": {
+      "median": 5955,
+      "mean": 7045,
+      "p25": 4559,
+      "p75": 7533,
+      "min": 2480,
+      "max": 32999
+    },
+    "Delhi_Mumbai_Business": {
+      "median": 42312,
+      "mean": 44364,
+      "p25": 36577,
+      "p75": 53164,
+      "min": 22152,
+      "max": 95657
+    },
+    "Delhi_Mumbai_Economy": {
+      "median": 5284,
+      "mean": 6059,
+      "p25": 3100,
+      "p75": 6724,
+      "min": 2281,
+      "max": 31260
+    },
+    "Hyderabad_Bangalore_Business": {
+      "median": 56590,
+      "mean": 50358,
+      "p25": 38099,
+      "p75": 56702,
+      "min": 12114,
+      "max": 97767
+    },
+    "Hyderabad_Bangalore_Economy": {
+      "median": 5441,
+      "mean": 6234,
+      "p25": 4054,
+      "p75": 6776,
+      "min": 1755,
+      "max": 32751
+    },
+    "Hyderabad_Chennai_Business": {
+      "median": 51595,
+      "mean": 51132,
+      "p25": 41314,
+      "p75": 51707,
+      "min": 15250,
+      "max": 95208
+    },
+    "Hyderabad_Chennai_Economy": {
+      "median": 4674,
+      "mean": 6049,
+      "p25": 4009,
+      "p75": 7363,
+      "min": 1543,
+      "max": 29128
+    },
+    "Hyderabad_Delhi_Business": {
+      "median": 47395,
+      "mean": 44250,
+      "p25": 39499,
+      "p75": 51875,
+      "min": 24122,
+      "max": 86203
+    },
+    "Hyderabad_Delhi_Economy": {
+      "median": 5823,
+      "mean": 6072,
+      "p25": 4172,
+      "p75": 6292,
+      "min": 2200,
+      "max": 30211
+    },
+    "Hyderabad_Kolkata_Business": {
+      "median": 51819,
+      "mean": 53729,
+      "p25": 51707,
+      "p75": 53499,
+      "min": 20000,
+      "max": 97381
+    },
+    "Hyderabad_Kolkata_Economy": {
+      "median": 5960,
+      "mean": 6881,
+      "p25": 4789,
+      "p75": 8375,
+      "min": 2056,
+      "max": 33853
+    },
+    "Hyderabad_Mumbai_Business": {
+      "median": 52715,
+      "mean": 52184,
+      "p25": 45883,
+      "p75": 60555,
+      "min": 17738,
+      "max": 115211
+    },
+    "Hyderabad_Mumbai_Economy": {
+      "median": 4660,
+      "mean": 5969,
+      "p25": 4165,
+      "p75": 7496,
+      "min": 2250,
+      "max": 32803
+    },
+    "Kolkata_Bangalore_Business": {
+      "median": 60978,
+      "mean": 58681,
+      "p25": 52287,
+      "p75": 60978,
+      "min": 25470,
+      "max": 105638
+    },
+    "Kolkata_Bangalore_Economy": {
+      "median": 6489,
+      "mean": 7471,
+      "p25": 4663,
+      "p75": 8111,
+      "min": 3465,
+      "max": 31899
+    },
+    "Kolkata_Chennai_Business": {
+      "median": 55983,
+      "mean": 56502,
+      "p25": 55502,
+      "p75": 55983,
+      "min": 20606,
+      "max": 95183
+    },
+    "Kolkata_Chennai_Economy": {
+      "median": 6489,
+      "mean": 8011,
+      "p25": 5227,
+      "p75": 9639,
+      "min": 2966,
+      "max": 31479
+    },
+    "Kolkata_Delhi_Business": {
+      "median": 53743,
+      "mean": 55047,
+      "p25": 43910,
+      "p75": 66063,
+      "min": 28510,
+      "max": 123071
+    },
+    "Kolkata_Delhi_Economy": {
+      "median": 6461,
+      "mean": 7161,
+      "p25": 4663,
+      "p75": 7480,
+      "min": 2994,
+      "max": 34944
+    },
+    "Kolkata_Hyderabad_Business": {
+      "median": 52175,
+      "mean": 54732,
+      "p25": 52063,
+      "p75": 52175,
+      "min": 20356,
+      "max": 114705
+    },
+    "Kolkata_Hyderabad_Economy": {
+      "median": 6488,
+      "mean": 7489,
+      "p25": 5177,
+      "p75": 9383,
+      "min": 2436,
+      "max": 25494
+    },
+    "Kolkata_Mumbai_Business": {
+      "median": 58111,
+      "mean": 57422,
+      "p25": 50271,
+      "p75": 64831,
+      "min": 31838,
+      "max": 110936
+    },
+    "Kolkata_Mumbai_Economy": {
+      "median": 6067,
+      "mean": 7405,
+      "p25": 5507,
+      "p75": 8096,
+      "min": 3379,
+      "max": 31112
+    },
+    "Mumbai_Bangalore_Business": {
+      "median": 54608,
+      "mean": 57970,
+      "p25": 54608,
+      "p75": 66928,
+      "min": 20684,
+      "max": 114523
+    },
+    "Mumbai_Bangalore_Economy": {
+      "median": 6319,
+      "mean": 6432,
+      "p25": 4341,
+      "p75": 7387,
+      "min": 2074,
+      "max": 34188
+    },
+    "Mumbai_Chennai_Business": {
+      "median": 57453,
+      "mean": 55703,
+      "p25": 49613,
+      "p75": 64173,
+      "min": 23484,
+      "max": 111964
+    },
+    "Mumbai_Chennai_Economy": {
+      "median": 4732,
+      "mean": 6420,
+      "p25": 4069,
+      "p75": 8201,
+      "min": 1890,
+      "max": 33401
+    },
+    "Mumbai_Delhi_Business": {
+      "median": 41269,
+      "mean": 43846,
+      "p25": 36565,
+      "p75": 53152,
+      "min": 22140,
+      "max": 111437
+    },
+    "Mumbai_Delhi_Economy": {
+      "median": 5445,
+      "mean": 5889,
+      "p25": 2738,
+      "p75": 6221,
+      "min": 2336,
+      "max": 32119
+    },
+    "Mumbai_Hyderabad_Business": {
+      "median": 53645,
+      "mean": 51593,
+      "p25": 45693,
+      "p75": 60365,
+      "min": 17548,
+      "max": 99677
+    },
+    "Mumbai_Hyderabad_Economy": {
+      "median": 4263,
+      "mean": 5774,
+      "p25": 3916,
+      "p75": 7584,
+      "min": 2105,
+      "max": 25683
+    },
+    "Mumbai_Kolkata_Business": {
+      "median": 57565,
+      "mean": 57106,
+      "p25": 49725,
+      "p75": 64285,
+      "min": 31292,
+      "max": 100909
+    },
+    "Mumbai_Kolkata_Economy": {
+      "median": 5949,
+      "mean": 7227,
+      "p25": 5012,
+      "p75": 8253,
+      "min": 2835,
+      "max": 28571
+    }
+  },
+  "airline_multipliers": {
+    "AirAsia_Economy": 0.57,
+    "Air_India_Business": 0.93,
+    "Air_India_Economy": 1.05,
+    "GO_FIRST_Economy": 0.92,
+    "Indigo_Economy": 0.77,
+    "SpiceJet_Economy": 0.98,
+    "Vistara_Business": 1.06,
+    "Vistara_Economy": 1.12
+  }
+}
