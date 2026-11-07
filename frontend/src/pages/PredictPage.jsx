@@ -277,17 +277,17 @@ const PredictPage = () => {
                   <input
                     type="number"
                     name="price"
-                    min="500"
-                    max="200000"
-                    step="100"
+                    min="1"
+                    max="500000"
+                    step="any"
                     value={formData.price}
                     onChange={handleChange}
-                    placeholder="e.g. 5500"
-                    className="w-full pl-8 pr-3.5 py-2.5 text-sm font-bold text-slate-900 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-aviation-500"
+                    placeholder="e.g. 6037"
+                    className="w-full pl-8 pr-3.5 py-2.5 text-sm font-bold text-slate-900 border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs"
                   />
                 </div>
                 <div className="text-[11px] text-slate-500 mt-1">
-                  Direct price in Rupees without sliders.
+                  Direct price in Rupees down to the exact single Rupee (e.g. ₹6,037).
                 </div>
               </div>
             </div>
@@ -301,13 +301,13 @@ const PredictPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-aviation-600 hover:bg-aviation-700 text-white font-semibold text-sm rounded-xl shadow-md transition disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-sm rounded-xl shadow-md transition disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer border border-blue-500"
             >
               {loading ? (
                 <span>Running Inference...</span>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-4 h-4 text-amber-300" />
                   <span>Predict Route Profile Cluster</span>
                 </>
               )}

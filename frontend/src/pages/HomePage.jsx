@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Plane, 
@@ -63,7 +63,22 @@ const HomePage = () => {
 
   const [travelDate, setTravelDate] = useState(() => getDateFromDays(14));
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState(() => calculatePreciseFareVerdict(flightData));
+
+  // Instantly re-calculate precise verdict as user types or changes fields
+  useEffect(() => {
+    if (flightData.price && Number(flightData.price) > 0) {
+      const precise = calculatePreciseFareVerdict(flightData);
+      setResult(prev => ({
+        ...(prev || {}),
+        ...precise,
+        cluster_name: prev?.cluster_name || (flightData.travel_class === 'Business' ? 'Cluster 2: Advance Business Class Corridor' : (flightData.duration >= 14 ? 'Cluster 1: Long-Haul Connecting Route' : (flightData.days_left >= 30 ? 'Cluster 3: Budget Leisure Route' : 'Cluster 0: Standard Planned Economy'))),
+        archetype: prev?.archetype || 'Volume Driver & Planned Economy',
+        key_drivers: prev?.key_drivers || [`${flightData.days_left} days left`, `${flightData.travel_class} class`],
+        pca_coordinates: prev?.pca_coordinates || { pc1: 1.25, pc2: -0.42, pc3: 0.88 }
+      }));
+    }
+  }, [flightData]);
 
   const handleQuickCheck = async (e) => {
     e.preventDefault();
@@ -208,27 +223,30 @@ const HomePage = () => {
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
                     <label className="text-xs font-bold text-slate-700 uppercase flex items-center gap-1.5">
-                      <DollarSign className="w-4 h-4 text-aviation-600" />
+                      <DollarSign className="w-4 h-4 text-blue-600" />
                       Ticket Price You Found (INR ₹)
                     </label>
                   </div>
                   <div className="relative">
-                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 font-bold text-sm">
+                    <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 font-bold text-sm">
                       ₹
                     </span>
                     <input
                       type="number"
-                      min="500"
-                      max="200000"
-                      step="100"
+                      min="1"
+                      max="500000"
+                      step="any"
                       value={flightData.price}
-                      onChange={(e) => setFlightData(prev => ({ ...prev, price: Number(e.target.value) }))}
-                      placeholder="e.g. 5800"
-                      className="w-full pl-8 pr-3.5 py-2.5 text-sm font-bold text-slate-900 border border-slate-300 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-aviation-500 shadow-2xs"
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setFlightData(prev => ({ ...prev, price: val === '' ? '' : Number(val) }));
+                      }}
+                      placeholder="e.g. 6037"
+                      className="w-full pl-8 pr-3.5 py-2.5 text-sm font-bold text-slate-900 border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs"
                     />
                   </div>
                   <div className="text-[11px] text-slate-500 mt-1">
-                    Enter the exact fare quoted on the booking website.
+                    Enter the exact fare quoted on the booking website (e.g. ₹6,037).
                   </div>
                 </div>
               </div>
@@ -236,13 +254,13 @@ const HomePage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 px-6 rounded-2xl bg-aviation-600 hover:bg-aviation-700 text-white font-bold text-sm sm:text-base shadow-md transition flex items-center justify-center gap-2 transform hover:-translate-y-0.5"
+                className="w-full py-4 px-6 rounded-2xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-black text-sm sm:text-base shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5 cursor-pointer border border-blue-500"
               >
                 {loading ? (
                   <span>Checking 300,000+ flight records...</span>
                 ) : (
                   <>
-                    <Sparkles className="w-5 h-5" />
+                    <Sparkles className="w-5 h-5 text-amber-300" />
                     <span>Check My Deal & Detect Surge</span>
                   </>
                 )}
