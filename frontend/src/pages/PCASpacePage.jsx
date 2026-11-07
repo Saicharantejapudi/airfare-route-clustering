@@ -102,7 +102,7 @@ const PCASpacePage = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-aviation-700 uppercase tracking-wider mb-1">
-            <Cpu className="w-4 h-4" /> Dimensionality Reduction • Unit IV (CO5)
+            <Cpu className="w-4 h-4" /> Dimensionality Reduction • 3D Manifold Space
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
             PCA 3D Manifold & Coordinate Visualizer

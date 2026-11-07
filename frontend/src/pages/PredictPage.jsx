@@ -323,7 +323,7 @@ const PredictPage = () => {
                 <span className="text-xs font-bold uppercase tracking-wider text-aviation-700 bg-aviation-100 px-3 py-1 rounded-full">
                   Inference Success
                 </span>
-                <span className="text-xs font-mono text-slate-400">SIH26056 Engine</span>
+                <span className="text-xs font-mono text-slate-400">AeroClust AI Engine</span>
               </div>
 
               <div>

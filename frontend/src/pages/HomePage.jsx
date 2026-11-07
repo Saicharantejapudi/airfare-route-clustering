@@ -388,38 +388,38 @@ const HomePage = () => {
         </section>
       ) : (
         /* =========================================================================
-           ACADEMIC EXAMINER LAB MODE (INT396 / SIH26056 AUDIT)
+           TECHNICAL LAB MODE (ALGORITHM & CLUSTER AUDIT)
            ========================================================================= */
         <section className="space-y-8 animate-fadeIn">
           <div className="p-8 bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 text-white rounded-3xl border border-purple-500/30 shadow-xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-200 border border-purple-400/30 text-xs font-semibold uppercase tracking-wider">
               <FlaskConical className="w-4 h-4 text-purple-300" />
-              Academic Examiner Audit Console • Problem Statement SIH26056
+              Machine Learning Diagnostics & Model Auditing Console
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-              Unsupervised Learning Proof of Work & Curriculum Mapping
+              Unsupervised Learning Architecture & Mathematical Validation
             </h1>
             <p className="text-purple-200 text-sm max-w-2xl leading-relaxed">
-              This console provides professors and evaluators direct verification of all mathematical models,
+              This console provides direct verification of all mathematical models,
               K-Means hyperparameter sweeps, distance metric evaluations, and 3D PCA coordinate decompositions.
             </p>
             <div className="flex flex-wrap gap-3 pt-2 text-xs">
               <Link to="/diagnostics" className="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-xl font-bold transition">
-                View Elbow & Silhouette Curves (CO2)
+                View Elbow & Silhouette Curves
               </Link>
               <Link to="/pca-space" className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl font-bold border border-white/20 transition">
-                Launch Interactive 3D PCA Sphere (CO5)
+                Launch Interactive 3D PCA Sphere
               </Link>
               <Link to="/archetypes" className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl font-bold border border-white/20 transition">
-                Inspect Centroid Math (CO3)
+                Inspect Centroid Math
               </Link>
             </div>
           </div>
 
-          {/* Academic Proof Cards */}
+          {/* Technical Architecture Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-3">
-              <div className="text-xs font-bold text-purple-700 uppercase">Unit II • Outcome CO2</div>
+              <div className="text-xs font-bold text-purple-700 uppercase">Partition Clustering</div>
               <h3 className="font-bold text-slate-900 text-base">Partition & Optimization</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
                 K-Means swept across k ∈ [2, 10] using k-means++ seeding. Confirmed optimal k=4 with inflection at WCSS = 196,078.8 and peak Silhouette separation.
@@ -427,7 +427,7 @@ const HomePage = () => {
             </div>
 
             <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-3">
-              <div className="text-xs font-bold text-emerald-700 uppercase">Unit III • Outcome CO3</div>
+              <div className="text-xs font-bold text-emerald-700 uppercase">Distance Geometry & Linkage</div>
               <h3 className="font-bold text-slate-900 text-base">Distance Metrics & Linkage</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
                 Evaluated Euclidean (L2) vs Manhattan (L1) metrics on 26 orthogonal binary/continuous dimensions. Hierarchical Ward linkage verified with ARI = 0.6522.
@@ -435,7 +435,7 @@ const HomePage = () => {
             </div>
 
             <div className="p-6 bg-white rounded-2xl border border-slate-200 shadow-xs space-y-3">
-              <div className="text-xs font-bold text-aviation-700 uppercase">Unit IV • Outcome CO5</div>
+              <div className="text-xs font-bold text-blue-700 uppercase">Dimensionality Reduction</div>
               <h3 className="font-bold text-slate-900 text-base">Dimensionality Reduction</h3>
               <p className="text-xs text-slate-600 leading-relaxed">
                 Covariance eigen-decomposition capturing 54.81% cumulative variance across 3 principal components. Rendered via WebGL-accelerated 3D Plotly rotating scatter.

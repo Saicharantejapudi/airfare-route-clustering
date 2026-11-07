@@ -19,7 +19,7 @@ const Navbar = () => {
   const { mode, toggleMode, isExaminer } = useMode();
 
   const academicNavItems = [
-    { to: '/academic/overview', label: 'Curriculum', icon: Compass },
+    { to: '/academic/overview', label: 'Architecture', icon: Compass },
     { to: '/explorer', label: 'Dataset', icon: Activity },
     { to: '/diagnostics', label: 'Diagnostics', icon: Layers },
     { to: '/pca-space', label: 'PCA 3D Space', icon: Cpu },
@@ -36,11 +36,11 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-xs">
-      {/* Top Banner when in Examiner Mode */}
+      {/* Top Banner when in Technical Mode */}
       {isExaminer && (
         <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-aviation-900 text-white text-[11px] font-medium py-1 px-4 text-center flex items-center justify-center gap-2">
           <FlaskConical className="w-3.5 h-3.5 text-purple-300" />
-          <span><b>Academic Examiner Lab Active</b> — Inspecting Unsupervised Learning Proof of Work (INT396 / SIH26056)</span>
+          <span><b>Technical ML Lab Active</b> — Inspecting Unsupervised Learning Models, Clusters & PCA Projections</span>
         </div>
       )}
 
@@ -59,11 +59,11 @@ const Navbar = () => {
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                   isExaminer ? 'bg-purple-100 text-purple-800' : 'bg-aviation-100 text-aviation-800'
                 }`}>
-                  {isExaminer ? 'Academic Lab' : 'Flight Advisor'}
+                  {isExaminer ? 'Technical ML Lab' : 'Flight Advisor'}
                 </span>
               </div>
               <div className="text-[11px] text-slate-500 font-medium">
-                {isExaminer ? 'INT396 University Audit Mode' : 'AI Flight Price & Surge Detector'}
+                {isExaminer ? 'Model & Cluster Diagnostics' : 'AI Flight Price & Surge Detector'}
               </div>
             </div>
           </NavLink>
