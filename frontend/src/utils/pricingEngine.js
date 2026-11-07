@@ -139,3 +139,4 @@ export const calculatePreciseFareVerdict = ({
     route_label: `${source_city} ➔ ${destination_city}`
   };
 };
+
