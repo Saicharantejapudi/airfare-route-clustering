@@ -1,0 +1,107 @@
+{
+  "dataset_records": 300153,
+  "optimal_k": 4,
+  "metrics": [
+    {
+      "k": 2,
+      "wcss": 243608.19,
+      "silhouette_score": 0.2079,
+      "davies_bouldin_index": 1.7936
+    },
+    {
+      "k": 3,
+      "wcss": 215854.88,
+      "silhouette_score": 0.1615,
+      "davies_bouldin_index": 2.0268
+    },
+    {
+      "k": 4,
+      "wcss": 196078.81,
+      "silhouette_score": 0.1507,
+      "davies_bouldin_index": 1.9156
+    },
+    {
+      "k": 5,
+      "wcss": 185559.1,
+      "silhouette_score": 0.1404,
+      "davies_bouldin_index": 2.0849
+    },
+    {
+      "k": 6,
+      "wcss": 178641.47,
+      "silhouette_score": 0.1209,
+      "davies_bouldin_index": 2.1575
+    },
+    {
+      "k": 7,
+      "wcss": 173190.2,
+      "silhouette_score": 0.1169,
+      "davies_bouldin_index": 2.202
+    },
+    {
+      "k": 8,
+      "wcss": 168457.42,
+      "silhouette_score": 0.1073,
+      "davies_bouldin_index": 2.2245
+    },
+    {
+      "k": 9,
+      "wcss": 164165.45,
+      "silhouette_score": 0.1045,
+      "davies_bouldin_index": 2.3144
+    },
+    {
+      "k": 10,
+      "wcss": 161355.93,
+      "silhouette_score": 0.0954,
+      "davies_bouldin_index": 2.4409
+    }
+  ],
+  "distance_comparison": {
+    "silhouette_euclidean_l2": 0.1512,
+    "silhouette_manhattan_l1": 0.1555,
+    "mean_within_cluster_l2": 2.7377,
+    "mean_within_cluster_l1": 7.4175,
+    "conclusion": "Manhattan (L1) metric reflects taxicab distance along sparse orthogonal one-hot binary dimensions without squaring penalties, whereas Euclidean (L2) places disproportionate weight on continuous coordinate variances."
+  },
+  "hierarchical_stability": {
+    "adjusted_rand_index": 0.6522,
+    "normalized_mutual_info": 0.6405
+  },
+  "cluster_archetypes": {
+    "0": "Cluster 0: Standard Mid-Range Economy Corridor",
+    "1": "Cluster 1: Long-Haul Multi-Stop Economy Route",
+    "2": "Cluster 2: Advance Business Class Corridor",
+    "3": "Cluster 3: Budget Advance-Booking Leisure Route"
+  },
+  "centroids": [
+    {
+      "cluster": 0,
+      "price": 9053.303941531525,
+      "duration": 7.947852641020047,
+      "days_left": 14.337066395171261,
+      "cluster_name": "Cluster 0: Standard Mid-Range Economy Corridor"
+    },
+    {
+      "cluster": 1,
+      "price": 8653.924689121304,
+      "duration": 22.449473770896816,
+      "days_left": 24.709791649510006,
+      "cluster_name": "Cluster 1: Long-Haul Multi-Stop Economy Route"
+    },
+    {
+      "cluster": 2,
+      "price": 55512.49372637579,
+      "duration": 14.669798084702984,
+      "days_left": 25.759162872704,
+      "cluster_name": "Cluster 2: Advance Business Class Corridor"
+    },
+    {
+      "cluster": 3,
+      "price": 5865.220962581722,
+      "duration": 8.198320582371215,
+      "days_left": 38.12847173923123,
+      "cluster_name": "Cluster 3: Budget Advance-Booking Leisure Route"
+    }
+  ]
+}
