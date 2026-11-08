@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Plot from 'react-plotly.js';
+import Plotly from 'plotly.js-dist-min';
+import createPlotlyComponent from 'react-plotly.js/factory';
+import fallbackPCAData from '../data/pcaSamplePoints.json';
+
+const Plot = createPlotlyComponent(Plotly);
 import { Cpu, RotateCcw, Eye, Layers, Compass, BarChart2 } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getPCAProjections } from '../services/api';
@@ -24,19 +28,19 @@ const pcLoadings = {
 };
 
 const PCASpacePage = () => {
-  const [pcaData, setPcaData] = useState(null);
+  const [pcaData, setPcaData] = useState(fallbackPCAData);
   const [viewMode, setViewMode] = useState('3d');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchPca = async () => {
       try {
         const data = await getPCAProjections(500);
-        setPcaData(data);
+        if (data && data.points && data.points.length > 0) {
+          setPcaData(data);
+        }
       } catch (err) {
-        console.error("Failed to load PCA data:", err);
-      } finally {
-        setLoading(false);
+        console.warn("Using offline PCA projections data:", err);
       }
     };
     fetchPca();
@@ -152,26 +156,26 @@ const PCASpacePage = () => {
           </div>
         </div>
 
-        <div className="w-full h-[520px] rounded-xl overflow-hidden bg-slate-50/50 flex items-center justify-center">
+        <div className="w-full h-[540px] rounded-xl overflow-hidden bg-slate-50/50 flex items-center justify-center p-1">
           <Plot
             data={traces}
             layout={{
               autosize: true,
-              margin: { l: 0, r: 0, b: 0, t: 20 },
+              margin: { l: 20, r: 20, b: 30, t: 30 },
               paper_bgcolor: 'transparent',
               plot_bgcolor: 'transparent',
               legend: {
                 orientation: 'h',
-                y: -0.05,
+                y: -0.08,
                 x: 0,
                 font: { size: 11, color: '#334155' }
               },
               scene: {
-                xaxis: { title: 'PC1 (Price & Duration)', backgroundcolor: '#f8fafc', gridcolor: '#e2e8f0' },
-                yaxis: { title: 'PC2 (Lead Time)', backgroundcolor: '#f8fafc', gridcolor: '#e2e8f0' },
-                zaxis: { title: 'PC3 (Route Allocation)', backgroundcolor: '#f8fafc', gridcolor: '#e2e8f0' },
+                xaxis: { title: 'PC1 (Price & Duration)', backgroundcolor: '#f8fafc', gridcolor: '#cbd5e1' },
+                yaxis: { title: 'PC2 (Lead Time)', backgroundcolor: '#f8fafc', gridcolor: '#cbd5e1' },
+                zaxis: { title: 'PC3 (Route Allocation)', backgroundcolor: '#f8fafc', gridcolor: '#cbd5e1' },
                 camera: {
-                  eye: { x: 1.5, y: 1.5, z: 1.2 }
+                  eye: { x: 1.6, y: 1.6, z: 1.2 }
                 }
               },
               xaxis: { title: 'PC1 (Price & Duration Intensity)', gridcolor: '#e2e8f0' },
@@ -179,6 +183,7 @@ const PCASpacePage = () => {
             }}
             config={{ responsive: true, displayModeBar: true, displaylogo: false }}
             style={{ width: '100%', height: '100%' }}
+            useResizeHandler={true}
           />
         </div>
       </div>
