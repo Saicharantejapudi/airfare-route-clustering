@@ -59,7 +59,7 @@ const PredictPage = () => {
     price: 5999
   });
 
-  const [travelDate, setTravelDate] = useState(() => getDateFromDays(15));
+  const [travelDate, setTravelDate] = useState(() => getDateFromDays(1));
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);

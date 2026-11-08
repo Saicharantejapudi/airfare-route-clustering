@@ -61,7 +61,7 @@ const HomePage = () => {
     price: 5999
   });
 
-  const [travelDate, setTravelDate] = useState(() => getDateFromDays(14));
+  const [travelDate, setTravelDate] = useState(() => getDateFromDays(1));
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(() => calculatePreciseFareVerdict(flightData));
 
