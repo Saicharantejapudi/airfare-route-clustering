@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Plane, 
-  Sparkles, 
-  ShieldAlert, 
-  Clock, 
-  DollarSign, 
-  CheckCircle2, 
-  ArrowRight, 
+import {
+  Plane,
+  Sparkles,
+  ShieldAlert,
+  Clock,
+  DollarSign,
+  CheckCircle2,
+  ArrowRight,
   AlertCircle,
   TrendingDown,
   Calendar,
@@ -57,8 +57,8 @@ const HomePage = () => {
     stops: 'zero',
     travel_class: 'Economy',
     duration: 2.2,
-    days_left: 14,
-    price: 5800
+    days_left: 1,
+    price: 5999
   });
 
   const [travelDate, setTravelDate] = useState(() => getDateFromDays(14));
@@ -299,11 +299,10 @@ const HomePage = () => {
                       <div className="text-[11px] text-slate-400 mt-0.5">Historical expected median</div>
                     </div>
 
-                    <div className={`p-3.5 rounded-xl border shadow-2xs ${
-                      result.price_diff > 0 
-                        ? 'bg-rose-50/70 border-rose-200 text-rose-700' 
-                        : 'bg-emerald-50/70 border-emerald-200 text-emerald-700'
-                    }`}>
+                    <div className={`p-3.5 rounded-xl border shadow-2xs ${result.price_diff > 0
+                      ? 'bg-rose-50/70 border-rose-200 text-rose-700'
+                      : 'bg-emerald-50/70 border-emerald-200 text-emerald-700'
+                      }`}>
                       <div className="text-[11px] font-bold uppercase">
                         {result.price_diff > 0 ? 'Surge Premium' : 'Passenger Savings'}
                       </div>

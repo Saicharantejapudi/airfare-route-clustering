@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { 
-  PlayCircle, 
-  Plane, 
-  Calendar, 
-  Clock, 
-  DollarSign, 
-  CheckCircle2, 
-  ArrowRight, 
+import {
+  PlayCircle,
+  Plane,
+  Calendar,
+  Clock,
+  DollarSign,
+  CheckCircle2,
+  ArrowRight,
   Sparkles,
   MapPin,
   Tag
@@ -55,8 +55,8 @@ const PredictPage = () => {
     stops: 'zero',
     travel_class: 'Economy',
     duration: 2.5,
-    days_left: 15,
-    price: 5500
+    days_left: 1,
+    price: 5999
   });
 
   const [travelDate, setTravelDate] = useState(() => getDateFromDays(15));
@@ -354,9 +354,8 @@ const PredictPage = () => {
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3">
                   <div className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
                     <span>Route Price Precision</span>
-                    <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${
-                      result.price_diff > 0 ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'
-                    }`}>
+                    <span className={`text-[11px] px-2 py-0.5 rounded-full font-bold ${result.price_diff > 0 ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'
+                      }`}>
                       {result.price_diff > 0 ? `+${result.percent_delta}% Surge` : `${Math.abs(result.percent_delta)}% Saving`}
                     </span>
                   </div>

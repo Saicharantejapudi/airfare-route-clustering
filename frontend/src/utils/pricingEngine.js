@@ -14,8 +14,8 @@ export const calculatePreciseFareVerdict = ({
   price,
   duration
 }) => {
-  const userPrice = Number(price) || 5000;
-  const days = Number(days_left) || 14;
+  const userPrice = Number(price) || 5999;
+  const days = Number(days_left) || 1;
 
   // 1. Locate Route Baseline
   const routeKey = `${source_city}_${destination_city}_${travel_class}`;
