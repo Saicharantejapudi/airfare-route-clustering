@@ -40,7 +40,7 @@ const Navbar = () => {
       {isExaminer && (
         <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-aviation-900 text-white text-[11px] font-medium py-1 px-4 text-center flex items-center justify-center gap-2">
           <FlaskConical className="w-3.5 h-3.5 text-purple-300" />
-          <span><b>Technical ML Lab Active</b> — Inspecting Unsupervised Learning Models, Clusters & PCA Projections</span>
+          <span><b>Analyst Lab Active</b> — Exploring Unsupervised Learning Models, Route Clusters & PCA Manifolds</span>
         </div>
       )}
 
@@ -59,11 +59,11 @@ const Navbar = () => {
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                   isExaminer ? 'bg-purple-100 text-purple-800' : 'bg-aviation-100 text-aviation-800'
                 }`}>
-                  {isExaminer ? 'Technical ML Lab' : 'Flight Advisor'}
+                  {isExaminer ? 'Analyst Lab' : 'Flight Advisor'}
                 </span>
               </div>
               <div className="text-[11px] text-slate-500 font-medium">
-                {isExaminer ? 'Model & Cluster Diagnostics' : 'AI Flight Price & Surge Detector'}
+                {isExaminer ? 'Route Intelligence & ML Diagnostics' : 'AI Flight Price & Surge Detector'}
               </div>
             </div>
           </NavLink>
@@ -103,19 +103,19 @@ const Navbar = () => {
                   ? 'bg-purple-100 border-purple-300 text-purple-900 hover:bg-purple-200'
                   : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'
               }`}
-              title="Click to toggle between Common Man Mode and Examiner Lab"
+              title="Click to toggle between Flight Advisor and Analyst Lab"
             >
               {isExaminer ? (
                 <>
                   <FlaskConical className="w-3.5 h-3.5 text-purple-700" />
-                  <span className="hidden sm:inline">Lab Mode (On)</span>
-                  <span className="sm:hidden">Lab</span>
+                  <span className="hidden sm:inline">Analyst Lab (Active)</span>
+                  <span className="sm:hidden">Analyst</span>
                 </>
               ) : (
                 <>
                   <FlaskConical className="w-3.5 h-3.5 text-slate-500" />
-                  <span className="hidden sm:inline">Examiner Lab</span>
-                  <span className="sm:hidden">Audit</span>
+                  <span className="hidden sm:inline">Analyst Lab</span>
+                  <span className="sm:hidden">Analyst</span>
                 </>
               )}
             </button>

@@ -387,13 +387,13 @@ const HomePage = () => {
         </section>
       ) : (
         /* =========================================================================
-           TECHNICAL LAB MODE (ALGORITHM & CLUSTER AUDIT)
+           ANALYST LAB MODE (ALGORITHM & CLUSTER AUDIT)
            ========================================================================= */
         <section className="space-y-8 animate-fadeIn">
           <div className="p-8 bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 text-white rounded-3xl border border-purple-500/30 shadow-xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-200 border border-purple-400/30 text-xs font-semibold uppercase tracking-wider">
               <FlaskConical className="w-4 h-4 text-purple-300" />
-              Machine Learning Diagnostics & Model Auditing Console
+              Analyst Intelligence & Model Diagnostics Console
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
               Unsupervised Learning Architecture & Mathematical Validation

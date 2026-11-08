@@ -3,9 +3,11 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ModeContext = createContext();
 
 export const ModeProvider = ({ children }) => {
-  // Default mode is 'passenger' (consumer-first)
+  // Default mode is 'passenger' (Flight Advisor)
   const [mode, setMode] = useState(() => {
-    return localStorage.getItem('aerocluster_mode') || 'passenger';
+    const saved = localStorage.getItem('aerocluster_mode');
+    if (saved === 'examiner') return 'analyst';
+    return saved || 'passenger';
   });
 
   useEffect(() => {
@@ -13,11 +15,19 @@ export const ModeProvider = ({ children }) => {
   }, [mode]);
 
   const toggleMode = () => {
-    setMode((prev) => (prev === 'passenger' ? 'examiner' : 'passenger'));
+    setMode((prev) => (prev === 'passenger' ? 'analyst' : 'passenger'));
   };
 
+  const isAnalyst = mode === 'analyst' || mode === 'examiner';
+
   return (
-    <ModeContext.Provider value={{ mode, setMode, toggleMode, isExaminer: mode === 'examiner' }}>
+    <ModeContext.Provider value={{ 
+      mode, 
+      setMode, 
+      toggleMode, 
+      isAnalyst,
+      isExaminer: isAnalyst // backward compatibility
+    }}>
       {children}
     </ModeContext.Provider>
   );
