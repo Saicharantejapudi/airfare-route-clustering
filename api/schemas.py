@@ -38,6 +38,9 @@ class PredictionResponse(BaseModel):
     pca_coordinates: PCACoordinates
     operational_profile: str
     key_drivers: List[str]
+    confidence_pct: Optional[float] = Field(None, example=84.2)
+    centroid_distance: Optional[float] = Field(None, example=2.13)
+    secondary_cluster: Optional[str] = Field(None, example="Cluster 0: Standard Planned Economy (78.2% proximity)")
 
 class CentroidProfile(BaseModel):
     cluster: int

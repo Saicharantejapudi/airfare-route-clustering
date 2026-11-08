@@ -141,6 +141,19 @@ class ModelService:
         # Predict cluster
         cluster_id = int(self.kmeans_model.predict(X_trans)[0])
 
+        # Centroid distances and proximity confidence metrics
+        centers = self.kmeans_model.cluster_centers_
+        dists = np.linalg.norm(centers - X_trans[0], axis=1)
+        tot_dist = float(np.sum(dists)) if np.sum(dists) > 0.01 else 1.0
+        centroid_dist = round(float(dists[cluster_id]), 3)
+        conf_pct = round(100.0 * (1.0 - dists[cluster_id] / tot_dist), 1)
+
+        sorted_indices = np.argsort(dists)
+        sec_id = int(sorted_indices[1]) if len(sorted_indices) > 1 else cluster_id
+        sec_name = ARCHETYPE_METADATA.get(sec_id, {}).get("name", f"Cluster {sec_id}")
+        sec_conf = round(100.0 * (1.0 - dists[sec_id] / tot_dist), 1)
+        secondary_str = f"Cluster {sec_id}: {sec_name} ({sec_conf}% proximity)"
+
         # PCA Projection
         coords = self.pca_manager.transform(X_trans)[0]
 
@@ -208,7 +221,10 @@ class ModelService:
                 pc3=round(float(coords[2]), 4) if len(coords) > 2 else 0.0
             ),
             operational_profile=meta['desc'],
-            key_drivers=meta['drivers']
+            key_drivers=meta['drivers'],
+            confidence_pct=conf_pct,
+            centroid_distance=centroid_dist,
+            secondary_cluster=secondary_str
         )
 
     def get_centroids(self) -> List[CentroidProfile]:

@@ -64,6 +64,65 @@ const PredictPage = () => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
 
+  const presets = [
+    {
+      title: 'Delhi ➔ Mumbai (IndiGo, 30d out)',
+      badge: 'Fair Market Baseline',
+      badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+      desc: 'Typical early-bird booking (₹7,129)',
+      data: {
+        airline: 'Indigo',
+        source_city: 'Delhi',
+        destination_city: 'Mumbai',
+        departure_time: 'Morning',
+        stops: 'zero',
+        travel_class: 'Economy',
+        duration: 2.15,
+        days_left: 30,
+        price: 7129
+      }
+    },
+    {
+      title: 'Mumbai ➔ Bangalore (Air India Business, 2d)',
+      badge: 'Corporate Surge Corridor',
+      badgeColor: 'bg-purple-100 text-purple-800 border-purple-200',
+      desc: 'Urgent business commute (₹45,000)',
+      data: {
+        airline: 'Air_India',
+        source_city: 'Mumbai',
+        destination_city: 'Bangalore',
+        departure_time: 'Evening',
+        stops: 'zero',
+        travel_class: 'Business',
+        duration: 1.85,
+        days_left: 2,
+        price: 45000
+      }
+    },
+    {
+      title: 'Delhi ➔ Chennai (SpiceJet, 42d out)',
+      badge: 'Discount Leisure Route',
+      badgeColor: 'bg-blue-100 text-blue-800 border-blue-200',
+      desc: 'Early-bird promotional fare (₹4,200)',
+      data: {
+        airline: 'SpiceJet',
+        source_city: 'Delhi',
+        destination_city: 'Chennai',
+        departure_time: 'Morning',
+        stops: 'zero',
+        travel_class: 'Economy',
+        duration: 2.75,
+        days_left: 42,
+        price: 4200
+      }
+    }
+  ];
+
+  const applyPreset = (presetData) => {
+    setFormData(presetData);
+    setTravelDate(getDateFromDays(presetData.days_left));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -123,6 +182,35 @@ const PredictPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Form Container */}
         <div className="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-6">
+          {/* Quick-Fill Realistic Presets */}
+          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                Quick-Fill Demo Presets
+              </span>
+              <span className="text-[11px] text-slate-400">1-click testing</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {presets.map((p, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => applyPreset(p.data)}
+                  className="text-left p-2.5 rounded-lg bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 transition shadow-2xs group cursor-pointer"
+                >
+                  <div className="text-[11px] font-bold text-slate-800 group-hover:text-blue-700 truncate">
+                    {p.title}
+                  </div>
+                  <div className="text-[10px] text-slate-500 mt-0.5 truncate">{p.desc}</div>
+                  <span className={`inline-block text-[9px] font-bold px-1.5 py-0.5 rounded border mt-1.5 ${p.badgeColor}`}>
+                    {p.badge}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Airline & Class */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -398,6 +486,32 @@ const PredictPage = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Mathematical Confidence & Centroid Distance */}
+              {result.confidence_pct && (
+                <div className="pt-4 border-t border-slate-100 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
+                    <span>Cluster Centroid Proximity</span>
+                    <span className="font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+                      {result.confidence_pct}% Proximity
+                    </span>
+                  </div>
+                  <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                    <div
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${result.confidence_pct}%` }}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between text-[11px] text-slate-500">
+                    <span>Centroid Distance: <b className="font-mono text-slate-800">{result.centroid_distance ?? 'N/A'}</b></span>
+                    {result.secondary_cluster && (
+                      <span className="truncate max-w-[210px]" title={result.secondary_cluster}>
+                        Secondary: <b className="text-slate-700">{result.secondary_cluster}</b>
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="bg-slate-50 rounded-2xl p-8 border border-dashed border-slate-300 text-center space-y-3">
