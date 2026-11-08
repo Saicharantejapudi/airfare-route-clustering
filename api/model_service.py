@@ -248,7 +248,7 @@ class ModelService:
             "cumulative_variance": round(float(sum(exp_var)), 4)
         }
 
-    def get_pca_sample(self, limit: int = 600) -> Dict[str, Any]:
+    def get_pca_sample(self, limit: int = 1000) -> Dict[str, Any]:
         """Provides downsampled 2D/3D PCA scatter points for React visualizers."""
         if self.clean_sample_df is None or not self.is_ready():
             return {"points": [], "total_samples": 0}

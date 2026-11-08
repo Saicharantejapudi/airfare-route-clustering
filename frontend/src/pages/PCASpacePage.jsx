@@ -35,7 +35,7 @@ const PCASpacePage = () => {
   useEffect(() => {
     const fetchPca = async () => {
       try {
-        const data = await getPCAProjections(500);
+        const data = await getPCAProjections(1000);
         if (data && data.points && data.points.length > 0) {
           setPcaData(data);
         }

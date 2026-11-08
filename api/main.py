@@ -70,7 +70,7 @@ def get_cluster_centroids():
     return service.get_centroids()
 
 @app.get("/api/v1/pca/projections", tags=["Dimensionality Reduction"])
-def get_pca_projections(limit: int = 600) -> Dict[str, Any]:
+def get_pca_projections(limit: int = 1000) -> Dict[str, Any]:
     """Returns 2D and 3D PCA coordinates and cluster assignments for visual scatter plots."""
     return service.get_pca_sample(limit=limit)
 
