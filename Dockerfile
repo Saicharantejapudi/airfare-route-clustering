@@ -37,7 +37,8 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 COPY --chown=user:user api/ ./api/
 COPY --chown=user:user src/ ./src/
 COPY --chown=user:user outputs/ ./outputs/
-COPY --chown=user:user data/processed/ ./data/processed/
+COPY --chown=user:user Data/processed/ ./Data/processed/
+COPY --chown=user:user Data/processed/ ./data/processed/
 
 # Copy built frontend assets from Stage 1 into frontend/dist
 COPY --chown=user:user --from=frontend-builder /app/frontend/dist ./frontend/dist

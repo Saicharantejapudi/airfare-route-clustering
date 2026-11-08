@@ -6,9 +6,10 @@ Course: INT396 | Problem Statement: SIH26056
 
 from pathlib import Path
 from typing import Any, Dict, List
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from starlette.responses import FileResponse, JSONResponse
 
 from api.model_service import ModelService
 from api.schemas import (
@@ -91,5 +92,15 @@ def predict_route_cluster(request: FlightInferenceRequest):
 # Mount static frontend production build if available (Unified single-service support)
 dist_dir = Path("frontend/dist")
 if dist_dir.exists() and dist_dir.is_dir():
+    @app.exception_handler(404)
+    async def spa_fallback_404(request: Request, exc: Exception):
+        path = request.url.path
+        if path.startswith("/api/") or path.startswith("/docs") or path.startswith("/openapi.json") or path.startswith("/redoc"):
+            return JSONResponse(status_code=404, content={"detail": f"Path '{path}' not found"})
+        index_file = dist_dir / "index.html"
+        if index_file.exists():
+            return FileResponse(index_file)
+        return JSONResponse(status_code=404, content={"detail": "Not Found"})
+
     app.mount("/", StaticFiles(directory=str(dist_dir), html=True), name="static_frontend")
 

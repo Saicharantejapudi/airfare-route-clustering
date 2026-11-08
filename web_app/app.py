@@ -57,12 +57,15 @@ st.markdown("""
 # Cache data loading
 @st.cache_data
 def load_sample_data():
-    processed_sample_path = Path("data/processed/clean_sample.csv")
+    processed_sample_path = Path("Data/processed/clean_sample.csv")
+    alt_processed_sample_path = Path("data/processed/clean_sample.csv")
     raw_path = Path("data/raw/Clean_Dataset.csv")
     alt_raw_path = Path("Data/Clean_Dataset.csv")
 
     if processed_sample_path.exists():
         return pd.read_csv(processed_sample_path)
+    elif alt_processed_sample_path.exists():
+        return pd.read_csv(alt_processed_sample_path)
     elif raw_path.exists():
         df = pd.read_csv(raw_path, nrows=10000)
         drop_cols = [c for c in ['Unnamed: 0', 'flight'] if c in df.columns]
