@@ -28,7 +28,16 @@ const pcLoadings = {
 };
 
 const PCASpacePage = () => {
-  const [pcaData, setPcaData] = useState(fallbackPCAData);
+  const [pcaData, setPcaData] = useState(() => {
+    try {
+      const cached = sessionStorage.getItem('aerocluster_pca_1000');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed?.points?.length > 0) return parsed;
+      }
+    } catch {}
+    return fallbackPCAData;
+  });
   const [viewMode, setViewMode] = useState('3d');
   const [loading, setLoading] = useState(false);
 
@@ -38,6 +47,9 @@ const PCASpacePage = () => {
         const data = await getPCAProjections(1000);
         if (data && data.points && data.points.length > 0) {
           setPcaData(data);
+          try {
+            sessionStorage.setItem('aerocluster_pca_1000', JSON.stringify(data));
+          } catch {}
         }
       } catch (err) {
         console.warn("Using offline PCA projections data:", err);
@@ -100,6 +112,58 @@ const PCASpacePage = () => {
     }
   });
 
+  // Calculate Centroid Coordinates in PCA Space for Distinct Markers
+  const centroids = [0, 1, 2, 3].map((clusterId) => {
+    const clusterPts = points.filter((p) => p.cluster === clusterId);
+    if (clusterPts.length === 0) return { x: 0, y: 0, z: 0, id: clusterId };
+    const avgX = clusterPts.reduce((acc, p) => acc + p.x, 0) / clusterPts.length;
+    const avgY = clusterPts.reduce((acc, p) => acc + p.y, 0) / clusterPts.length;
+    const avgZ = clusterPts.reduce((acc, p) => acc + p.z, 0) / clusterPts.length;
+    return {
+      x: Number(avgX.toFixed(3)),
+      y: Number(avgY.toFixed(3)),
+      z: Number(avgZ.toFixed(3)),
+      id: clusterId
+    };
+  });
+
+  const centroidTrace = viewMode === '3d' ? {
+    type: 'scatter3d',
+    mode: 'markers+text',
+    name: 'Cluster Centroids (Centers of Gravity)',
+    x: centroids.map((c) => c.x),
+    y: centroids.map((c) => c.y),
+    z: centroids.map((c) => c.z),
+    text: centroids.map((c) => `C${c.id} Centroid`),
+    textposition: 'top center',
+    textfont: { size: 10, color: '#0f172a' },
+    hoverinfo: 'text',
+    marker: {
+      size: 9,
+      symbol: 'diamond',
+      color: '#0f172a',
+      line: { color: '#ffffff', width: 2 },
+      opacity: 0.95
+    }
+  } : {
+    type: 'scatter',
+    mode: 'markers+text',
+    name: 'Cluster Centroids (Centers of Gravity)',
+    x: centroids.map((c) => c.x),
+    y: centroids.map((c) => c.y),
+    text: centroids.map((c) => `C${c.id} Centroid`),
+    textposition: 'top center',
+    textfont: { size: 10, color: '#0f172a' },
+    hoverinfo: 'text',
+    marker: {
+      size: 13,
+      symbol: 'diamond',
+      color: '#0f172a',
+      line: { color: '#ffffff', width: 2 },
+      opacity: 0.95
+    }
+  };
+
   return (
     <div className="space-y-8 pb-12">
       {/* Header */}
@@ -158,7 +222,7 @@ const PCASpacePage = () => {
 
         <div className="w-full h-[540px] rounded-xl overflow-hidden bg-slate-50/50 flex items-center justify-center p-1">
           <Plot
-            data={traces}
+            data={[...traces, centroidTrace]}
             layout={{
               autosize: true,
               margin: { l: 20, r: 20, b: 30, t: 30 },
