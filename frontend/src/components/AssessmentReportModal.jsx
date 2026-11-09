@@ -36,12 +36,117 @@ const AssessmentReportModal = ({ isOpen, onClose, flightData, result }) => {
 
   if (!isOpen || !result) return null;
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   const isSurge = result.price_diff > 0;
   const isGoodDeal = result.percent_delta <= -10;
+
+  const handlePrint = () => {
+    const printEl = document.getElementById('printable-assessment');
+    if (!printEl) {
+      window.print();
+      return;
+    }
+
+    // Collect all stylesheets from parent document
+    const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
+      .map(node => node.outerHTML)
+      .join('\n');
+
+    // Create an isolated hidden iframe for 100% reliable single-page printing
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow.document;
+    doc.open();
+    doc.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="UTF-8">
+          <title>AeroCluster Valuation Certificate - ${certId}</title>
+          ${styles}
+          <style>
+            @page { 
+              size: A4 portrait; 
+              margin: 8mm 10mm; 
+            }
+            html, body { 
+              margin: 0 !important; 
+              padding: 12px !important; 
+              background: #ffffff !important; 
+              color: #0f172a !important; 
+              width: 100% !important;
+              max-width: 800px !important;
+              margin: 0 auto !important;
+            }
+            * { 
+              -webkit-print-color-adjust: exact !important; 
+              print-color-adjust: exact !important; 
+            }
+          </style>
+        </head>
+        <body>
+          ${printEl.outerHTML}
+        </body>
+      </html>
+    `);
+    doc.close();
+
+    // Trigger print from the isolated iframe
+    setTimeout(() => {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+      // Clean up after print dialog closes
+      setTimeout(() => {
+        try {
+          document.body.removeChild(iframe);
+        } catch (e) {
+          // ignore if already removed
+        }
+      }, 2000);
+    }, 300);
+  };
+
+  const handleDownloadHtml = () => {
+    const printEl = document.getElementById('printable-assessment');
+    if (!printEl) return;
+
+    const styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
+      .map(node => node.outerHTML)
+      .join('\n');
+
+    const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AeroCluster Valuation Certificate - ${certId}</title>
+  ${styles}
+  <style>
+    @page { size: A4 portrait; margin: 8mm 10mm; }
+    body { margin: 0; padding: 24px; background: #ffffff; color: #0f172a; max-width: 820px; margin: 0 auto; font-family: system-ui, sans-serif; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  </style>
+</head>
+<body>
+  ${printEl.outerHTML}
+</body>
+</html>`;
+
+    const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `AeroCluster_Certificate_${certId || 'Valuation'}.html`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   return createPortal(
     <div id="print-modal-root" className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
@@ -63,6 +168,14 @@ const AssessmentReportModal = ({ isOpen, onClose, flightData, result }) => {
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Print / Save as PDF</span>
+            </button>
+            <button
+              onClick={handleDownloadHtml}
+              className="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-bold text-xs rounded-xl shadow-2xs transition cursor-pointer"
+              title="Download standalone HTML certificate"
+            >
+              <Download className="w-3.5 h-3.5 text-blue-600" />
+              <span>Download File</span>
             </button>
             <button
               onClick={onClose}
