@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Plane,
@@ -63,22 +63,13 @@ const HomePage = () => {
 
   const [travelDate, setTravelDate] = useState(() => getDateFromDays(1));
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState(() => calculatePreciseFareVerdict(flightData));
+  const [result, setResult] = useState(null);
+  const resultRef = useRef(null);
 
-  // Instantly re-calculate precise verdict as user types or changes fields
-  useEffect(() => {
-    if (flightData.price && Number(flightData.price) > 0) {
-      const precise = calculatePreciseFareVerdict(flightData);
-      setResult(prev => ({
-        ...(prev || {}),
-        ...precise,
-        cluster_name: prev?.cluster_name || (flightData.travel_class === 'Business' ? 'Cluster 2: Advance Business Class Corridor' : (flightData.duration >= 14 ? 'Cluster 1: Long-Haul Connecting Route' : (flightData.days_left >= 30 ? 'Cluster 3: Budget Leisure Route' : 'Cluster 0: Standard Planned Economy'))),
-        archetype: prev?.archetype || 'Volume Driver & Planned Economy',
-        key_drivers: prev?.key_drivers || [`${flightData.days_left} days left`, `${flightData.travel_class} class`],
-        pca_coordinates: prev?.pca_coordinates || { pc1: 1.25, pc2: -0.42, pc3: 0.88 }
-      }));
-    }
-  }, [flightData]);
+  const updateFlightField = (field, value) => {
+    setFlightData((prev) => ({ ...prev, [field]: value }));
+    setResult(null); // Hide previous verdict until button is clicked again
+  };
 
   const handleQuickCheck = async (e) => {
     e.preventDefault();
@@ -103,6 +94,11 @@ const HomePage = () => {
         ...clusterData,
         ...precise
       });
+
+      // Smooth scroll to verdict card once calculated
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
     } catch (err) {
       console.error("Check failed:", err);
     } finally {
@@ -146,7 +142,7 @@ const HomePage = () => {
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">From</label>
                   <select
                     value={flightData.source_city}
-                    onChange={(e) => setFlightData({ ...flightData, source_city: e.target.value })}
+                    onChange={(e) => updateFlightField('source_city', e.target.value)}
                     className="w-full text-sm font-medium border border-slate-300 rounded-xl px-3 py-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-aviation-500"
                   >
                     {cities.map((c) => <option key={c} value={c}>{c}</option>)}
@@ -157,7 +153,7 @@ const HomePage = () => {
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">To</label>
                   <select
                     value={flightData.destination_city}
-                    onChange={(e) => setFlightData({ ...flightData, destination_city: e.target.value })}
+                    onChange={(e) => updateFlightField('destination_city', e.target.value)}
                     className="w-full text-sm font-medium border border-slate-300 rounded-xl px-3 py-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-aviation-500"
                   >
                     {cities.filter(c => c !== flightData.source_city).map((c) => <option key={c} value={c}>{c}</option>)}
@@ -169,7 +165,7 @@ const HomePage = () => {
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Airline</label>
                   <select
                     value={flightData.airline}
-                    onChange={(e) => setFlightData({ ...flightData, airline: e.target.value })}
+                    onChange={(e) => updateFlightField('airline', e.target.value)}
                     className="w-full text-sm font-medium border border-slate-300 rounded-xl px-3 py-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-aviation-500"
                   >
                     {airlines.map((a) => <option key={a} value={a}>{a.replace('_', ' ')}</option>)}
@@ -181,7 +177,7 @@ const HomePage = () => {
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Travel Class</label>
                   <select
                     value={flightData.travel_class}
-                    onChange={(e) => setFlightData({ ...flightData, travel_class: e.target.value })}
+                    onChange={(e) => updateFlightField('travel_class', e.target.value)}
                     className="w-full text-sm font-medium border border-slate-300 rounded-xl px-3 py-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-aviation-500"
                   >
                     <option value="Economy">Economy</option>
@@ -210,7 +206,7 @@ const HomePage = () => {
                     onChange={(e) => {
                       setTravelDate(e.target.value);
                       const days = getDaysFromDate(e.target.value);
-                      setFlightData(prev => ({ ...prev, days_left: days }));
+                      updateFlightField('days_left', days);
                     }}
                     className="w-full text-sm font-semibold border border-slate-300 rounded-xl px-3.5 py-2.5 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-aviation-500 shadow-2xs"
                   />
@@ -239,7 +235,7 @@ const HomePage = () => {
                       value={flightData.price}
                       onChange={(e) => {
                         const val = e.target.value;
-                        setFlightData(prev => ({ ...prev, price: val === '' ? '' : Number(val) }));
+                        updateFlightField('price', val === '' ? '' : Number(val));
                       }}
                       placeholder="e.g. 6037"
                       className="w-full pl-8 pr-3.5 py-2.5 text-sm font-bold text-slate-900 border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs"
@@ -269,7 +265,7 @@ const HomePage = () => {
 
             {/* Verdict Output Card */}
             {result && (
-              <div className="p-6 rounded-2xl bg-slate-50 border-2 border-aviation-500 space-y-5 animate-fadeIn">
+              <div ref={resultRef} className="p-6 rounded-2xl bg-slate-50 border-2 border-aviation-500 space-y-5 animate-fadeIn">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/80 pb-3">
                   <div>
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Instant AI Verdict</span>
