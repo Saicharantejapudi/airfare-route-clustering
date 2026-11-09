@@ -12,6 +12,7 @@ import {
 import { Database, Filter, Layers, DollarSign, Calendar, Clock } from 'lucide-react';
 import MetricCard from '../components/MetricCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import RouteNetworkMap from '../components/RouteNetworkMap';
 import { getDatasetSummary } from '../services/api';
 
 const airlineFareData = [
@@ -102,6 +103,9 @@ const ExplorerPage = () => {
           color="amber"
         />
       </div>
+
+      {/* Interactive Indian Domestic Route Corridor Network Map */}
+      <RouteNetworkMap />
 
       {/* Chart: Fare by Carrier & Class */}
       <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
