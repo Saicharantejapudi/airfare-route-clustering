@@ -65,6 +65,12 @@ def get_k_sweep_metrics() -> Dict[str, Any]:
     """Returns WCSS, Silhouette Score, and Davies-Bouldin metrics across k=2..10."""
     return service.get_metrics()
 
+@app.get("/api/v1/metrics/dbscan-anomalies", tags=["Clustering Diagnostics"])
+def get_dbscan_anomalies() -> Dict[str, Any]:
+    """Returns DBSCAN density anomaly metrics, noise counts, and price gouging statistics."""
+    metrics = service.get_metrics()
+    return metrics.get("dbscan_anomalies", {})
+
 @app.get("/api/v1/clusters/centroids", response_model=List[CentroidProfile], tags=["Cluster Profiles"])
 def get_cluster_centroids():
     """Returns de-standardized real-world cluster centroid profiles and commercial archetypes."""

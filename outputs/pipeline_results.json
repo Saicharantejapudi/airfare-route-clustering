@@ -68,6 +68,19 @@
     "adjusted_rand_index": 0.6522,
     "normalized_mutual_info": 0.6405
   },
+  "dbscan_anomalies": {
+    "eps": 1.65,
+    "min_samples": 15,
+    "evaluated_samples": 5000,
+    "density_clusters_found": 1,
+    "noise_anomalies_count": 190,
+    "noise_percentage": 3.8,
+    "mean_noise_fare": 29103.77,
+    "mean_core_fare": 20551.01,
+    "gouging_outliers_count": 59,
+    "flash_sale_outliers_count": 4,
+    "analytical_insight": "Unlike K-Means which forcibly partitions all points into spherical Voronoi cells, DBSCAN isolates 3.8% of flights into an unclustered noise manifold. These represent algorithmic price gouging events (fares up to ₹114,705) and promotional anomalies."
+  },
   "cluster_archetypes": {
     "0": "Cluster 0: Standard Mid-Range Economy Corridor",
     "1": "Cluster 1: Long-Haul Multi-Stop Economy Route",

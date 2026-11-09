@@ -28,6 +28,11 @@ export const getMetricsSweep = async () => {
   return res.data;
 };
 
+export const getDBSCANAnomalies = async () => {
+  const res = await apiClient.get('/api/v1/metrics/dbscan-anomalies');
+  return res.data;
+};
+
 export const getClusterCentroids = async () => {
   const res = await apiClient.get('/api/v1/clusters/centroids');
   return res.data;

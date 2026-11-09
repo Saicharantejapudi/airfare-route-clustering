@@ -11,7 +11,12 @@ import pytest
 
 from src.data_loader import clean_dataset, detect_outliers_iqr
 from src.preprocessor import RoutePreprocessor
-from src.clustering import DistanceMetricComparison, HierarchicalClusterer, KMeansClusterer
+from src.clustering import (
+    DistanceMetricComparison,
+    HierarchicalClusterer,
+    KMeansClusterer,
+    DBSCANAnomalyDetector
+)
 from src.dimensionality import PCAManager
 from src.metrics import evaluate_clustering, evaluate_partition_stability
 
@@ -107,4 +112,18 @@ def test_pca_decomposition(sample_raw_data):
     loadings = pca.get_component_loadings(top_n=2)
     assert 'PC1' in loadings
     assert 'PC2' in loadings
+
+def test_dbscan_anomaly_detection(sample_raw_data):
+    preprocessor = RoutePreprocessor()
+    X = preprocessor.fit_transform(sample_raw_data)
+
+    dbscan_detector = DBSCANAnomalyDetector(eps=1.5, min_samples=5, sample_size=100, random_state=42)
+    dbscan_detector.fit_sample(X, raw_df=sample_raw_data)
+    summary = dbscan_detector.get_summary()
+
+    assert "noise_anomalies_count" in summary
+    assert "noise_percentage" in summary
+    assert "mean_noise_fare" in summary
+    assert summary["evaluated_samples"] == 100
+    assert summary["noise_percentage"] >= 0.0
 
