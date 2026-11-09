@@ -13,12 +13,14 @@ import {
   Calendar,
   Layers,
   FlaskConical,
-  Award
+  Award,
+  Printer
 } from 'lucide-react';
 import { useMode } from '../context/ModeContext';
 import { predictRouteCluster } from '../services/api';
 import { calculatePreciseFareVerdict } from '../utils/pricingEngine';
 import SurgeTrajectoryChart from '../components/SurgeTrajectoryChart';
+import AssessmentReportModal from '../components/AssessmentReportModal';
 
 const airlines = ['Vistara', 'Air_India', 'Indigo', 'SpiceJet', 'AirAsia', 'GO_FIRST'];
 const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Hyderabad', 'Chennai'];
@@ -65,6 +67,7 @@ const HomePage = () => {
   const [travelDate, setTravelDate] = useState(() => getDateFromDays(1));
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
+  const [showReportModal, setShowReportModal] = useState(false);
   const resultRef = useRef(null);
 
   const updateFlightField = (field, value) => {
@@ -272,8 +275,18 @@ const HomePage = () => {
                     <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Instant AI Verdict</span>
                     <h3 className="text-xl sm:text-2xl font-black text-slate-900 mt-0.5">{result.deal_verdict}</h3>
                   </div>
-                  <div className={`px-3 py-1.5 rounded-xl border text-xs font-black self-start sm:self-auto ${getScoreColor(result.deal_score)}`}>
-                    Value Rating: {result.deal_score} / 10
+                  <div className="flex items-center gap-2 self-start sm:self-auto">
+                    <button
+                      type="button"
+                      onClick={() => setShowReportModal(true)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-slate-300 hover:border-blue-500 hover:bg-blue-50 text-xs font-bold text-slate-700 hover:text-blue-700 transition shadow-2xs cursor-pointer"
+                    >
+                      <Printer className="w-3.5 h-3.5 text-blue-600" />
+                      <span>Download Assessment (PDF)</span>
+                    </button>
+                    <div className={`px-3 py-1.5 rounded-xl border text-xs font-black ${getScoreColor(result.deal_score)}`}>
+                      Value Rating: {result.deal_score} / 10
+                    </div>
                   </div>
                 </div>
 
@@ -445,6 +458,14 @@ const HomePage = () => {
           </div>
         </section>
       )}
+
+      {/* Assessment Report Modal for Printing / PDF Saving */}
+      <AssessmentReportModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        flightData={flightData}
+        result={result}
+      />
     </div>
   );
 };

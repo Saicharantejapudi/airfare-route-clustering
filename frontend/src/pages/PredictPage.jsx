@@ -9,11 +9,13 @@ import {
   ArrowRight,
   Sparkles,
   MapPin,
-  Tag
+  Tag,
+  Printer
 } from 'lucide-react';
 import { predictRouteCluster } from '../services/api';
 import { calculatePreciseFareVerdict } from '../utils/pricingEngine';
 import SurgeTrajectoryChart from '../components/SurgeTrajectoryChart';
+import AssessmentReportModal from '../components/AssessmentReportModal';
 
 const airlines = ['Vistara', 'Air_India', 'Indigo', 'SpiceJet', 'AirAsia', 'GO_FIRST'];
 const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Hyderabad', 'Chennai'];
@@ -64,6 +66,7 @@ const PredictPage = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   const presets = [
     {
@@ -408,11 +411,18 @@ const PredictPage = () => {
         <div className="lg:col-span-5 space-y-6">
           {result ? (
             <div className="bg-white rounded-2xl p-6 sm:p-8 border-2 border-aviation-500 shadow-md space-y-6 animate-fadeIn">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-aviation-700 bg-aviation-100 px-3 py-1 rounded-full">
                   Inference Success
                 </span>
-                <span className="text-xs font-mono text-slate-400">AeroClust AI Engine</span>
+                <button
+                  type="button"
+                  onClick={() => setShowReportModal(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white border border-slate-300 hover:border-blue-500 hover:bg-blue-50 text-xs font-bold text-slate-700 hover:text-blue-700 transition shadow-2xs cursor-pointer"
+                >
+                  <Printer className="w-3.5 h-3.5 text-blue-600" />
+                  <span>Download Assessment (PDF)</span>
+                </button>
               </div>
 
               <div>
@@ -532,6 +542,14 @@ const PredictPage = () => {
           )}
         </div>
       </div>
+
+      {/* Assessment Report Modal for Printing / PDF Saving */}
+      <AssessmentReportModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        flightData={formData}
+        result={result}
+      />
     </div>
   );
 };
