@@ -27,23 +27,77 @@ body {
 
 /* Print Stylesheet for Official Assessment Report */
 @media print {
-  body * {
-    visibility: hidden !important;
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
   }
-  #printable-assessment, #printable-assessment * {
-    visibility: visible !important;
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-  #printable-assessment {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Completely remove the normal app container (#root) from print layout */
+  #root {
+    display: none !important;
+  }
+
+  /* Render the portal root statically */
+  #print-modal-root {
+    position: static !important;
+    display: block !important;
+    inset: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    overflow: visible !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    backdrop-filter: none !important;
+    z-index: auto !important;
+  }
+
+  /* Flatten modal card into a full-width clean sheet */
+  #print-modal-card {
+    position: static !important;
+    display: block !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    max-width: 100% !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 24px !important;
+    padding: 0 !important;
     background: #ffffff !important;
-    color: #000000 !important;
+    overflow: visible !important;
   }
+
+  /* Hide modal buttons and controls during printing */
   .no-print {
     display: none !important;
+  }
+
+  /* Document area fits cleanly on a single page */
+  #printable-assessment {
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 }

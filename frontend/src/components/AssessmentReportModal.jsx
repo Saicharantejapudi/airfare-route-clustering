@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   Printer, 
   X, 
@@ -42,10 +43,10 @@ const AssessmentReportModal = ({ isOpen, onClose, flightData, result }) => {
   const isSurge = result.price_diff > 0;
   const isGoodDeal = result.percent_delta <= -10;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
+  return createPortal(
+    <div id="print-modal-root" className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
       {/* Modal Card */}
-      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-auto animate-fadeIn">
+      <div id="print-modal-card" className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-auto animate-fadeIn">
         
         {/* Top Control Bar (Hidden during printing) */}
         <div className="no-print flex items-center justify-between px-6 py-4 bg-slate-100 border-b border-slate-200">
@@ -237,7 +238,8 @@ const AssessmentReportModal = ({ isOpen, onClose, flightData, result }) => {
 
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
