@@ -18,6 +18,7 @@ import {
 import { useMode } from '../context/ModeContext';
 import { predictRouteCluster } from '../services/api';
 import { calculatePreciseFareVerdict } from '../utils/pricingEngine';
+import SurgeTrajectoryChart from '../components/SurgeTrajectoryChart';
 
 const airlines = ['Vistara', 'Air_India', 'Indigo', 'SpiceJet', 'AirAsia', 'GO_FIRST'];
 const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Hyderabad', 'Chennai'];
@@ -334,6 +335,11 @@ const HomePage = () => {
                       <span>Surge Trigger: <b className="text-rose-700">₹{result.route_surge_threshold?.toLocaleString()}</b></span>
                     </div>
                   </div>
+                )}
+
+                {/* Advance Booking Surge Trajectory Curve */}
+                {result.trajectory_data && (
+                  <SurgeTrajectoryChart trajectoryData={result.trajectory_data} />
                 )}
 
                 <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 pt-1">

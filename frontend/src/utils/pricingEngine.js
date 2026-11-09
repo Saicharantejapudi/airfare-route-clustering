@@ -135,6 +135,15 @@ export const calculatePreciseFareVerdict = ({
     savingsText = `Surge penalty: Overpaying by ₹${absDiff.toLocaleString()} (+${percentDelta}%)`;
   }
 
+  const trajectory = generateSurgeTrajectory({
+    source_city,
+    destination_city,
+    airline,
+    travel_class,
+    days_left: days,
+    price: userPrice
+  });
+
   return {
     deal_verdict: verdict,
     deal_score: score,
@@ -150,6 +159,79 @@ export const calculatePreciseFareVerdict = ({
     route_p25: spectrumP25,
     route_surge_threshold: spectrumSurge,
     airline_name: airline.replace('_', ' '),
-    route_label: `${source_city} ➔ ${destination_city}`
+    route_label: `${source_city} ➔ ${destination_city}`,
+    trajectory_data: trajectory
+  };
+};
+
+/**
+ * Generates historical multi-day price trajectory points from 50 days down to departure day
+ */
+export const generateSurgeTrajectory = ({
+  source_city,
+  destination_city,
+  airline,
+  travel_class,
+  days_left,
+  price
+}) => {
+  const daysList = [50, 45, 40, 35, 30, 25, 20, 15, 12, 9, 7, 5, 3, 2, 1];
+  const userDays = Math.max(1, Math.min(50, Number(days_left) || 1));
+  const userFare = Number(price) || 5999;
+
+  const routeKey = `${source_city}_${destination_city}_${travel_class}`;
+  const routeInfo = baselineData.routes[routeKey] || {
+    median: travel_class === 'Business' ? 52000 : 6500,
+    mean: travel_class === 'Business' ? 53000 : 7000,
+    p25: travel_class === 'Business' ? 48000 : 4500,
+    p75: travel_class === 'Business' ? 58000 : 8500,
+    min: travel_class === 'Business' ? 30000 : 2500,
+    max: travel_class === 'Business' ? 95000 : 32000,
+  };
+
+  let airlineFactor = 1.0;
+  if (travel_class !== 'Business') {
+    if (airline === 'Vistara' || airline === 'Air_India') {
+      airlineFactor = 1.10;
+    } else if (airline === 'Indigo') {
+      airlineFactor = 1.00;
+    } else {
+      airlineFactor = 0.92;
+    }
+  }
+
+  const CURRENT_MARKET_INDEX = travel_class === 'Business' ? 1.15 : 1.42;
+
+  const points = daysList.map((d) => {
+    let dFactor = 1.0;
+    if (d <= 2) {
+      dFactor = 1.60;
+    } else if (d <= 4) {
+      dFactor = 1.45;
+    } else if (d <= 7) {
+      dFactor = 1.28;
+    } else if (d <= 14) {
+      dFactor = 1.15;
+    } else if (d <= 25) {
+      dFactor = 1.02;
+    } else if (d <= 35) {
+      dFactor = 0.94;
+    } else {
+      dFactor = 0.88;
+    }
+
+    const fair = Math.round(routeInfo.median * airlineFactor * dFactor * CURRENT_MARKET_INDEX);
+    return {
+      days: d,
+      price: fair
+    };
+  });
+
+  return {
+    points,
+    userPoint: {
+      days: userDays,
+      price: userFare
+    }
   };
 };

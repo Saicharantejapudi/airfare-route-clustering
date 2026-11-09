@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { predictRouteCluster } from '../services/api';
 import { calculatePreciseFareVerdict } from '../utils/pricingEngine';
+import SurgeTrajectoryChart from '../components/SurgeTrajectoryChart';
 
 const airlines = ['Vistara', 'Air_India', 'Indigo', 'SpiceJet', 'AirAsia', 'GO_FIRST'];
 const cities = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Hyderabad', 'Chennai'];
@@ -467,6 +468,11 @@ const PredictPage = () => {
                     {result.actionable_tip}
                   </p>
                 </div>
+              )}
+
+              {/* Advance Booking Surge Trajectory Curve */}
+              {result.trajectory_data && (
+                <SurgeTrajectoryChart trajectoryData={result.trajectory_data} />
               )}
 
               <div className="pt-4 border-t border-slate-100">
