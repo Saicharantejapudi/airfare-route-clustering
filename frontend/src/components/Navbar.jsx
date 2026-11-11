@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { 
   Plane, 
   Activity, 
@@ -16,7 +16,18 @@ import {
 import { useMode } from '../context/ModeContext';
 
 const Navbar = () => {
-  const { mode, toggleMode, isExaminer } = useMode();
+  const { toggleMode, isExaminer } = useMode();
+  const navigate = useNavigate();
+
+  const handleModeToggle = () => {
+    if (isExaminer) {
+      // Deactivating Analyst Lab must always redirect the customer back to Flight Deal Checker
+      toggleMode();
+      navigate('/', { replace: true });
+      return;
+    }
+    toggleMode();
+  };
 
   const academicNavItems = [
     { to: '/academic/overview', label: 'Architecture', icon: Compass },
@@ -97,13 +108,17 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             {/* Dual-Persona Switcher Button */}
             <button
-              onClick={toggleMode}
+              onClick={handleModeToggle}
               className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-xs border ${
                 isExaminer
                   ? 'bg-purple-100 border-purple-300 text-purple-900 hover:bg-purple-200'
                   : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'
               }`}
-              title="Click to toggle between Flight Advisor and Analyst Lab"
+              title={
+                isExaminer
+                  ? 'Click to deactivate Analyst Lab and return to Flight Deal Checker'
+                  : 'Click to activate Analyst Lab'
+              }
             >
               {isExaminer ? (
                 <>

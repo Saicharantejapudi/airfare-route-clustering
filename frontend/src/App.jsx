@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ModeProvider } from './context/ModeContext';
+import { ModeProvider, useMode } from './context/ModeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -13,6 +13,11 @@ import PCASpacePage from './pages/PCASpacePage';
 import ArchetypesPage from './pages/ArchetypesPage';
 import PredictPage from './pages/PredictPage';
 
+const AnalystRoute = ({ children }) => {
+  const { isAnalyst } = useMode();
+  return isAnalyst ? children : <Navigate to="/" replace />;
+};
+
 function App() {
   return (
     <ModeProvider>
@@ -23,12 +28,12 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/passenger-guide" element={<PassengerGuidePage />} />
-              <Route path="/academic/overview" element={<AcademicOverviewPage />} />
-              <Route path="/explorer" element={<ExplorerPage />} />
-              <Route path="/diagnostics" element={<DiagnosticsPage />} />
-              <Route path="/pca-space" element={<PCASpacePage />} />
-              <Route path="/archetypes" element={<ArchetypesPage />} />
-              <Route path="/predict" element={<PredictPage />} />
+              <Route path="/academic/overview" element={<AnalystRoute><AcademicOverviewPage /></AnalystRoute>} />
+              <Route path="/explorer" element={<AnalystRoute><ExplorerPage /></AnalystRoute>} />
+              <Route path="/diagnostics" element={<AnalystRoute><DiagnosticsPage /></AnalystRoute>} />
+              <Route path="/pca-space" element={<AnalystRoute><PCASpacePage /></AnalystRoute>} />
+              <Route path="/archetypes" element={<AnalystRoute><ArchetypesPage /></AnalystRoute>} />
+              <Route path="/predict" element={<AnalystRoute><PredictPage /></AnalystRoute>} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>

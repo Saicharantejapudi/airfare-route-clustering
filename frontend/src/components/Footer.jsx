@@ -1,8 +1,11 @@
 import React from 'react';
-import { Plane, ShieldCheck, Sparkles, ExternalLink } from 'lucide-react';
+import { Plane, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useMode } from '../context/ModeContext';
 
 const Footer = () => {
+  const { isAnalyst } = useMode();
+
   return (
     <footer className="bg-slate-900 text-slate-300 py-10 mt-16 border-t border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,21 +34,34 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold text-xs uppercase tracking-wider mb-3">Platform Tools</h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li>
-                <Link to="/" className="hover:text-white transition">Deal & Surge Checker</Link>
-              </li>
-              <li>
-                <Link to="/passenger-guide" className="hover:text-white transition">Flight Price Wisdom Guide</Link>
-              </li>
-              <li>
-                <Link to="/explorer" className="hover:text-white transition">Route Cluster Explorer</Link>
-              </li>
-              <li>
-                <Link to="/pca-space" className="hover:text-white transition">3D Cluster Point Cloud</Link>
-              </li>
-              <li>
-                <Link to="/predict" className="hover:text-white transition">Live Route Predictor</Link>
-              </li>
+              {!isAnalyst ? (
+                <>
+                  <li>
+                    <Link to="/" className="hover:text-white transition">Deal & Surge Checker</Link>
+                  </li>
+                  <li>
+                    <Link to="/passenger-guide" className="hover:text-white transition">Flight Price Wisdom Guide</Link>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <Link to="/academic/overview" className="hover:text-white transition">Architecture Console</Link>
+                  </li>
+                  <li>
+                    <Link to="/explorer" className="hover:text-white transition">Route Cluster Explorer</Link>
+                  </li>
+                  <li>
+                    <Link to="/diagnostics" className="hover:text-white transition">Diagnostics & Curves</Link>
+                  </li>
+                  <li>
+                    <Link to="/pca-space" className="hover:text-white transition">3D Cluster Point Cloud</Link>
+                  </li>
+                  <li>
+                    <Link to="/predict" className="hover:text-white transition">Live Route Predictor</Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 
