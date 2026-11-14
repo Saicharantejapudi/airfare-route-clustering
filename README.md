@@ -28,7 +28,6 @@ An end-to-end, production-grade unsupervised learning system designed to discove
 - **Interactive REST API Documentation (Swagger / OpenAPI):** [https://aerocluster.onrender.com/docs](https://aerocluster.onrender.com/docs)
 - **Production Health & Model Readiness Endpoint:** [https://aerocluster.onrender.com/api/v1/health](https://aerocluster.onrender.com/api/v1/health)
 - **Official Dataset Benchmark:** [Flight Price Prediction Dataset by Shubham Bathwal on Kaggle](https://www.kaggle.com/datasets/shubhambathwal/flight-price-prediction) (300,153 verified flight records covering 6 Indian airlines and 6 metro hubs)
-- **Academic Streamlit Dashboard (Secondary Mirror):** [https://airfare-route-clustering.streamlit.app/](https://airfare-route-clustering.streamlit.app/)
 
 ---
 
@@ -40,7 +39,7 @@ This project satisfies all requirements for **INT396 (Unsupervised Learning)** a
 - **Registration Number:** 12507339
 - **Roll Number:** RK3P24XCB35
 - **Section:** K3P24XC
-- **Project Type:** Individual Capstone Project (Sr. No. 26)
+- **Project Type:** Individual Capstone Project
 - **Course Outcomes Addressed:**
   - **CO2:** Apply partitioning methods (K-Means) with $k$-means++ initialization and evaluate cluster cohesion across multiple $k \in [2, 10]$.
   - **CO3:** Implement agglomerative hierarchical clustering, linkage matrices, and compare geometric sensitivity under Euclidean ($L_2$) vs. Manhattan ($L_1$) norms.
@@ -204,9 +203,23 @@ Where $\mathbf{v}_m$ represents orthogonal eigenvectors (principal components) a
 
 ---
 
-## 8. Setup & Execution Instructions
+## 8. Prerequisites, Dataset Setup & Execution Instructions
 
-### 8.1 Clone and Environment Setup
+### 8.1 Prerequisites
+- **Python:** 3.11+ (Tested on Python 3.13)
+- **Node.js & npm:** Node 18+ (for rebuilding the React 19 Vite frontend, if modifying UI code)
+- **Package Managers:** `pip` (Python dependencies in `requirements.txt`) and `npm` (Frontend dependencies in `frontend/package.json`)
+
+### 8.2 External Dataset Download & Setup
+The full raw dataset (`Clean_Dataset.csv`, 300,153 flight records, ~24.7 MB) is hosted externally on Kaggle:
+1. **Download Dataset:** Visit [Flight Price Prediction Dataset on Kaggle](https://www.kaggle.com/datasets/shubhambathwal/flight-price-prediction) and download `Clean_Dataset.csv`.
+2. **Place Raw File:** Move `Clean_Dataset.csv` into `data/raw/Clean_Dataset.csv` (or `Data/raw/Clean_Dataset.csv`).
+3. **Note on Out-of-the-Box Execution:** A representative stratified sample (`Data/processed/clean_sample.csv`) and pre-trained models (`outputs/models/*.joblib`) are already committed in this repository so you can launch the FastAPI server, React UI, and `pytest` suite immediately without downloading the raw dataset. To retrain from scratch on all 300,153 rows:
+   ```bash
+   python -m src.pipeline_runner
+   ```
+
+### 8.3 Clone and Environment Setup
 ```bash
 # Clone the repository
 git clone https://github.com/Saicharantejapudi/airfare-route-clustering.git
@@ -223,12 +236,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 8.2 Run Automated Tests
+### 8.4 Run Automated Tests
 ```bash
 python -m pytest tests/ -v
 ```
 
-### 8.3 Launch Full-Stack Application Locally
+### 8.5 Launch Full-Stack Application Locally
 
 #### Option A: Unified FastAPI Server (Serves React Production Build)
 ```bash

@@ -22,12 +22,17 @@ frontend/node_modules/
 frontend/dist/
 
 # ==============================================================================
-# DATASET IGNORES (Never push raw datasets > 25MB to GitHub)
+# DATASET, RAW ASSETS & INTERMEDIATE BUILD IGNORES
 # ==============================================================================
 data/raw/*.csv
 Data/*.csv
 Data/raw/*.csv
 Master_prompt.txt
+report/Airfare_Route_Clustering_Report.pdf
+report/Airfare_Route_Clustering_Academic_Report.tex
+report/assets/
+report/Lpu_logo.jpeg
+presentation/Airfare_Route_Clustering_Slides.pdf
 
 # ==============================================================================
 # STEP-BY-STEP COMMIT BLOCKS

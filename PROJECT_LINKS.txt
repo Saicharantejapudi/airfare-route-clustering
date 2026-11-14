@@ -2,5 +2,4 @@ Project Title: Historical Airfare Route Profiles Through Regional Price Behaviou
 Problem Statement ID: SIH26056
 Registration Numbers of All Group Members: 12507339
 GitHub Repository Link: https://github.com/Saicharantejapudi/airfare-route-clustering
-Live Deployed Project Link (AeroCluster Web Portal): https://aerocluster.onrender.com
-Live Deployed Project Link (Streamlit Academic Dashboard): https://airfare-route-clustering.streamlit.app/
+Live Deployed Project Link: https://aerocluster.onrender.com
