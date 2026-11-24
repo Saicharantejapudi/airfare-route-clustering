@@ -22,8 +22,9 @@ An end-to-end, production-grade unsupervised learning system designed to discove
 
 ---
 
-## 🌐 Live Production Deployment & Dataset Access
+## 🌐 Live Production Deployment & Reference Links
 
+- **GitHub Repository:** [https://github.com/Saicharantejapudi/airfare-route-clustering](https://github.com/Saicharantejapudi/airfare-route-clustering)
 - **Live Production Web Application (Render Cloud):** [https://aerocluster.onrender.com](https://aerocluster.onrender.com)
 - **Interactive REST API Documentation (Swagger / OpenAPI):** [https://aerocluster.onrender.com/docs](https://aerocluster.onrender.com/docs)
 - **Production Health & Model Readiness Endpoint:** [https://aerocluster.onrender.com/api/v1/health](https://aerocluster.onrender.com/api/v1/health)
@@ -33,12 +34,17 @@ An end-to-end, production-grade unsupervised learning system designed to discove
 
 ## 1. Executive Overview & Academic Alignment
 
-This project satisfies all requirements for **INT396 (Unsupervised Learning)** and University Problem Statement **SIH26056** at Lovely Professional University.
+This project satisfies all requirements for **INT396 (Unsupervised Learning)** and University Problem Statement **SIH26056** at **Lovely Professional University**, Phagwara, Punjab.
 
+- **Project Title:** Historical Airfare Route Profiles Through Regional Price Behaviour Clustering (AeroCluster)
 - **Student Name:** Pudi Sai Charan Teja
 - **Registration Number:** 12507339
 - **Roll Number:** RK3P24XCB35
 - **Section:** K3P24XC
+- **Course:** INT396 (Unsupervised Learning)
+- **Problem Statement ID:** SIH26056
+- **Faculty Guide:** Hitesh Kumar (Department of Computer Science)
+- **Institution:** School of Computer Science and Engineering, Lovely Professional University
 - **Project Type:** Individual Capstone Project
 - **Course Outcomes Addressed:**
   - **CO2:** Apply partitioning methods (K-Means) with $k$-means++ initialization and evaluate cluster cohesion across multiple $k \in [2, 10]$.
@@ -206,18 +212,27 @@ Where $\mathbf{v}_m$ represents orthogonal eigenvectors (principal components) a
 ## 8. Prerequisites, Dataset Setup & Execution Instructions
 
 ### 8.1 Prerequisites
-- **Python:** 3.11+ (Tested on Python 3.13)
-- **Node.js & npm:** Node 18+ (for rebuilding the React 19 Vite frontend, if modifying UI code)
-- **Package Managers:** `pip` (Python dependencies in `requirements.txt`) and `npm` (Frontend dependencies in `frontend/package.json`)
+- **Python:** Python 3.13 (or 3.11+)
+- **Node.js & npm:** Node.js 20 (or 18+) & npm 10+ (for building the React 19 Vite frontend)
+- **Docker:** Docker Desktop / Docker Engine (for containerized execution)
+- **Package Managers:** `pip` for Python (`requirements.txt`) and `npm` for frontend (`frontend/package.json`)
 
-### 8.2 External Dataset Download & Setup
-The full raw dataset (`Clean_Dataset.csv`, 300,153 flight records, ~24.7 MB) is hosted externally on Kaggle:
-1. **Download Dataset:** Visit [Flight Price Prediction Dataset on Kaggle](https://www.kaggle.com/datasets/shubhambathwal/flight-price-prediction) and download `Clean_Dataset.csv`.
-2. **Place Raw File:** Move `Clean_Dataset.csv` into `data/raw/Clean_Dataset.csv` (or `Data/raw/Clean_Dataset.csv`).
-3. **Note on Out-of-the-Box Execution:** A representative stratified sample (`Data/processed/clean_sample.csv`) and pre-trained models (`outputs/models/*.joblib`) are already committed in this repository so you can launch the FastAPI server, React UI, and `pytest` suite immediately without downloading the raw dataset. To retrain from scratch on all 300,153 rows:
+### 8.2 Offline Machine Learning Pipeline Execution (`src/`)
+The repository supports execution on both the full 300,153-record Kaggle corpus and the in-repo lightweight sample:
+
+1. **Out-of-the-Box Execution (In-Repo Sample):**
+   A representative sample is included at `Data/processed/clean_sample.csv`. You can run the pipeline directly:
    ```bash
-   python -m src.pipeline_runner
+   python -m src.pipeline_runner --data Data/processed/clean_sample.csv
    ```
+2. **Full Kaggle Dataset Execution (300,153 Records):**
+   - Download `Clean_Dataset.csv` from [Kaggle](https://www.kaggle.com/datasets/shubhambathwal/flight-price-prediction).
+   - Place it at `Data/raw/Clean_Dataset.csv` (or `Data/Clean_Dataset.csv`).
+   - Run the complete end-to-end pipeline:
+     ```bash
+     python -m src.pipeline_runner
+     ```
+   - This generates the 26-dimensional orthogonal preprocessor, fits K-Means++ across $k \in [2, 10]$, computes Silhouette/DBI/WCSS metrics, executes $L_2$ vs $L_1$ benchmarks, fits Ward hierarchical linkage, isolates DBSCAN density outliers, performs 3D PCA covariance decomposition, and exports models to `outputs/models/` and 7 figures to `outputs/figures/`.
 
 ### 8.3 Clone and Environment Setup
 ```bash
@@ -236,12 +251,16 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 8.4 Run Automated Tests
+### 8.4 Run Automated Test Suite
 ```bash
-python -m pytest tests/ -v
+# Run all 7 unit and integration tests
+pytest
+
+# Or via python module:
+python -m pytest tests/test_modules.py -v
 ```
 
-### 8.5 Launch Full-Stack Application Locally
+### 8.5 Launch Application Locally
 
 #### Option A: Unified FastAPI Server (Serves React Production Build)
 ```bash
@@ -263,8 +282,20 @@ python -m uvicorn api.main:app --port 8000 --reload
 
 # Terminal 2: Vite React Dev Server
 cd frontend
+npm install
 npm run dev
 ```
+Navigate to `http://localhost:5173` for the interactive React development UI.
+
+#### Option C: Run via Docker (Containerized Deployment)
+```bash
+# Build the multi-stage Docker image
+docker build -t aerocluster .
+
+# Run the container (maps internal port 7860 to host port 7860)
+docker run -p 7860:7860 aerocluster
+```
+Access the application at `http://localhost:7860` and Swagger docs at `http://localhost:7860/docs`.
 
 ---
 
@@ -272,6 +303,9 @@ npm run dev
 
 - **Author:** Pudi Sai Charan Teja
 - **Registration Number:** 12507339
-- **Course:** INT396 (Unsupervised Learning) — Lovely Professional University
-- **Problem Statement ID:** SIH26056
+- **Roll Number:** RK3P24XCB35
+- **Section:** K3P24XC
+- **Faculty Guide:** Hitesh Kumar (Department of Computer Science)
+- **Institution:** School of Computer Science and Engineering, Lovely Professional University, Phagwara, Punjab
+- **Course:** INT396 (Unsupervised Learning) — Problem Statement ID: SIH26056
 - **License:** MIT License (see [LICENSE](LICENSE) for details)
