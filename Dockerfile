@@ -16,7 +16,7 @@ RUN npm run build
 # ==============================================================================
 # Stage 2: Python Backend Runtime with Non-Root User for Hugging Face
 # ==============================================================================
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # Create standard non-root user (UID 1000) required by Hugging Face Spaces
 RUN useradd -m -u 1000 user
